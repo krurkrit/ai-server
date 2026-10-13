@@ -1,0 +1,33 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(python tools/check.py)",
+      "Bash(python tools/build-outline-export.py)",
+      "Bash(python tools/update-option-related.py)",
+      "Bash(bash -n:*)"
+    ],
+    "deny": [
+      "Bash(ssh:*)",
+      "Bash(scp:*)",
+      "Bash(sftp:*)",
+      "Bash(rsync:*)",
+      "Bash(docker:*)",
+      "Bash(git push:*)",
+      "Read(./.env)",
+      "Read(./.env.*)",
+      "Read(./**/*.pem)",
+      "Read(./**/*.key)",
+      "Read(./outline-export/**/*.md)",
+      "Read(./**/*.p12)",
+      "Read(./**/*.pfx)",
+      "Read(./**/*_rsa)",
+      "Read(./**/credentials*)",
+      "Read(./secrets/)",
+      "Read(./**/*.secret)",
+      "Read(./**/*token*)",
+      "Read(./**/*password*)",
+      "Edit(./outline-export/**)",
+      "Write(./outline-export/**)"
+    ]
+  }
+}

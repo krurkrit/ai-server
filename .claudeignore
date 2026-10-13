@@ -1,0 +1,7 @@
+.git/
+# Generated copy of the guide and options (rebuilt by tools/build-outline-export.py); PNGs stay visible for diagram checks
+outline-export/*.md
+outline-export/options/
+__pycache__/
+*.pyc
+.venv/

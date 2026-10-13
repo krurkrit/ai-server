@@ -1,0 +1,166 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1075 590">
+  <defs>
+    <style>
+      @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;family=JetBrains+Mono:wght@400;500&amp;display=swap');
+      text { font-family: 'Inter', 'Segoe UI', Arial, sans-serif; }
+      .mono { font-family: 'JetBrains Mono', 'Consolas', monospace; }
+    </style>
+    <marker id="arrow" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto">
+      <path d="M0,0 L8,4 L0,8 Z" fill="#34383C"/>
+    </marker>
+    <marker id="arrowDash" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto">
+      <path d="M0,0 L8,4 L0,8 Z" fill="#8F94A0"/>
+    </marker>
+  </defs>
+  <rect x="0" y="0" width="1075" height="590" fill="#F8F9FA"/>
+  <g transform="translate(25,0)">
+  <text x="512" y="28" text-anchor="middle" font-size="18" font-weight="700" fill="#34383C">AI Pipeline &amp; Data Flow</text>
+
+  <!-- External callers -->
+  <g font-size="13" font-weight="700" fill="#F8F9FA">
+    <rect x="10" y="55" width="130" height="52" rx="10" fill="#1450A0"/>
+    <text x="75" y="86" text-anchor="middle">Sourcebot</text>
+
+    <rect x="260" y="55" width="140" height="52" rx="10" fill="#1450A0"/>
+    <text x="330" y="86" text-anchor="middle">OpenHands</text>
+
+    <rect x="425" y="55" width="110" height="52" rx="10" fill="#1450A0"/>
+    <text x="480" y="79" text-anchor="middle">Open WebUI</text>
+    <text x="480" y="96" text-anchor="middle" font-size="9.5" font-weight="400" fill="#CFE0F4">documents in Qdrant</text>
+
+    <!-- CI runner: internal only (no Caddy port), so the internal-only style -->
+    <rect x="550" y="55" width="110" height="52" rx="10" fill="#F1F3F5" stroke="#1450A0" stroke-width="1.5"/>
+    <text x="605" y="79" text-anchor="middle" fill="#34383C">CI runner</text>
+    <text x="605" y="96" text-anchor="middle" font-size="9.5" font-weight="400" fill="#52565B">GitHub jobs</text>
+  </g>
+  <line x1="260" y1="81" x2="140" y2="81" stroke="#8F94A0" stroke-width="1.6" stroke-dasharray="6,4" marker-end="url(#arrowDash)"/>
+  <text x="200" y="73" text-anchor="middle" font-size="11" fill="#52565B">optional, MCP</text>
+
+  <!-- Cluster: AI Model Serving -->
+  <rect x="45" y="140" width="680" height="390" rx="16" fill="#EAF1FA" stroke="#B9CFE8" stroke-width="1.5"/>
+  <text x="70" y="168" font-size="14" font-weight="700" fill="#1450A0">AI Model Serving</text>
+
+  <g font-size="13" font-weight="700" fill="#F8F9FA">
+    <rect x="260" y="185" width="140" height="55" rx="10" fill="#1450A0"/>
+    <text x="330" y="217" text-anchor="middle">LiteLLM</text>
+
+    <rect x="500" y="185" width="140" height="55" rx="10" fill="#1450A0"/>
+    <text x="570" y="217" text-anchor="middle">Langfuse</text>
+
+    <rect x="245" y="305" width="170" height="55" rx="10" fill="#F1F3F5" stroke="#1450A0" stroke-width="1.5"/>
+    <text x="330" y="329" text-anchor="middle" fill="#34383C">Ollama / vLLM</text>
+    <text x="330" y="346" text-anchor="middle" font-size="9.5" font-weight="400" fill="#52565B">internal only</text>
+
+    <rect x="260" y="425" width="140" height="55" rx="10" fill="#1450A0"/>
+    <text x="330" y="457" text-anchor="middle">Qdrant</text>
+
+    <rect x="500" y="425" width="160" height="55" rx="10" fill="#F1F3F5" stroke="#1450A0" stroke-width="1.5"/>
+    <text x="580" y="449" text-anchor="middle" fill="#34383C">Neo4j / Memgraph</text>
+    <text x="580" y="466" text-anchor="middle" font-size="9.5" font-weight="400" fill="#52565B">direct, bolt protocol</text>
+  </g>
+  <text x="460" y="500" text-anchor="middle" font-size="10.5" font-weight="600" fill="#1450A0">Knowledge stores — queried directly by agents for retrieval-augmented reasoning</text>
+
+  <!-- AI cluster internal edges -->
+  <line x1="330" y1="240" x2="330" y2="305" stroke="#34383C" stroke-width="1.8" marker-end="url(#arrow)"/>
+  <text x="338" y="255" font-size="11" fill="#34383C">routes to</text>
+  <text x="338" y="268" font-size="11" fill="#34383C">local runtime</text>
+
+  <line x1="330" y1="360" x2="330" y2="425" stroke="#8F94A0" stroke-width="1.6" stroke-dasharray="6,4" marker-end="url(#arrowDash)"/>
+  <text x="338" y="398" font-size="11" fill="#52565B">embeddings</text>
+
+  <line x1="400" y1="212" x2="500" y2="212" stroke="#8F94A0" stroke-width="1.6" stroke-dasharray="6,4" marker-end="url(#arrowDash)"/>
+  <text x="415" y="204" font-size="11" fill="#52565B">traces</text>
+
+  <!-- OpenHands -> LiteLLM (solid, straight). Label on the right, matching "routes to / local runtime" below it. -->
+  <line x1="330" y1="107" x2="330" y2="185" stroke="#34383C" stroke-width="1.8" marker-end="url(#arrow)"/>
+  <text x="338" y="124" font-size="11" fill="#34383C">model calls</text>
+
+  <!-- OpenHands -> Qdrant (outer lane, shifted right of the cluster title's own text so the line doesn't run
+       through it; bends EARLY/shallow so it settles before the Ollama line starts moving — no crossing) -->
+  <path d="M283,107 L283,120 Q283,132 271,132 L227,132 Q215,132 215,144 L215,452 Q215,464 227,464 L260,464"
+        fill="none" stroke="#8F94A0" stroke-width="1.6" stroke-dasharray="6,4" marker-end="url(#arrowDash)"/>
+  <text x="207" y="440" text-anchor="end" font-size="11" fill="#52565B">semantic search</text>
+
+  <!-- OpenHands -> Ollama (inner lane, bends LATE/deep, well after the Qdrant line has already settled — order preserved throughout, no crossing) -->
+  <path d="M307,107 L307,150 Q307,162 295,162 L257,162 Q245,162 245,174 L245,305"
+        fill="none" stroke="#8F94A0" stroke-width="1.6" stroke-dasharray="6,4" marker-end="url(#arrowDash)"/>
+  <text x="233" y="247" text-anchor="middle" font-size="11" fill="#52565B" transform="rotate(-90 233 247)">direct Ollama/vLLM calls</text>
+
+  <!-- Ollama/vLLM -> Langfuse: optional, only if the calling app is manually instrumented; label column-aligned
+       with the host-port note below -->
+  <path d="M405,305 L405,286 Q405,274 417,274 L558,274 Q570,274 570,262 L570,240"
+        fill="none" stroke="#8F94A0" stroke-width="1.6" stroke-dasharray="6,4" marker-end="url(#arrowDash)"/>
+  <text x="437" y="292" font-size="11" fill="#52565B">optional — only if the</text>
+  <text x="437" y="304" font-size="11" fill="#52565B">calling app is instrumented</text>
+
+  <!-- Ollama/vLLM optional direct host-port for testing — commented out in compose.yaml by default -->
+  <line x1="415" y1="332" x2="432" y2="332" stroke="#8F94A0" stroke-width="1.6" stroke-dasharray="6,4"/>
+  <text x="437" y="328" font-size="11" fill="#52565B">optional: direct host-port for testing</text>
+  <text x="437" y="341" font-size="11" fill="#52565B">(commented out in compose.yaml by default)</text>
+
+  <!-- OpenHands -> Neo4j/Memgraph: leaves OpenHands upward near its right edge and runs above Open WebUI (y=45,
+       clear of the title), then drops down to the box from above — 16px straight run into the arrowhead -->
+  <path d="M385,55 Q385,45 397,45 L683,45 Q695,45 695,57 L695,388 Q695,400 683,400 L592,400 Q580,400 580,409 L580,425"
+        fill="none" stroke="#8F94A0" stroke-width="1.6" stroke-dasharray="6,4" marker-end="url(#arrowDash)"/>
+  <text x="620" y="393" text-anchor="middle" font-size="11" fill="#52565B">graph queries</text>
+
+  <!-- Cluster: Monitoring & Observability -->
+  <rect x="775" y="140" width="240" height="390" rx="16" fill="#FBF1E7" stroke="#E3C39A" stroke-width="1.5"/>
+  <text x="800" y="168" font-size="14" font-weight="700" fill="#8A3F00">Monitoring &amp;</text>
+  <text x="800" y="186" font-size="14" font-weight="700" fill="#8A3F00">Observability</text>
+
+  <g font-size="13" font-weight="700" fill="#F8F9FA">
+    <rect x="825" y="215" width="140" height="55" rx="10" fill="#1450A0"/>
+    <text x="895" y="247" text-anchor="middle">Grafana</text>
+
+    <rect x="825" y="335" width="140" height="55" rx="10" fill="#1450A0"/>
+    <text x="895" y="367" text-anchor="middle">Prometheus</text>
+
+    <rect x="815" y="455" width="160" height="55" rx="10" fill="#F1F3F5" stroke="#1450A0" stroke-width="1.5"/>
+    <text x="895" y="478" text-anchor="middle" fill="#34383C">Node Exporter /</text>
+    <text x="895" y="494" text-anchor="middle" fill="#34383C">dcgm-exporter</text>
+  </g>
+
+  <line x1="895" y1="270" x2="895" y2="335" stroke="#8F94A0" stroke-width="1.6" stroke-dasharray="6,4" marker-end="url(#arrowDash)"/>
+  <text x="903" y="308" font-size="11" fill="#52565B">data source</text>
+  <text x="903" y="321" font-size="11" fill="#52565B">(manual)</text>
+
+  <line x1="895" y1="390" x2="895" y2="455" stroke="#34383C" stroke-width="1.8" marker-end="url(#arrow)"/>
+  <text x="903" y="428" font-size="11" fill="#34383C">scrapes</text>
+
+  <!-- Cross-cluster connector: Prometheus scrapes LiteLLM too. Routed through the clear gap between the cluster
+       boxes, then along y=158, below the Open WebUI line (y=135), so the two never cross — 15px straight run
+       into the arrowhead -->
+  <path d="M825,362 L762,362 Q750,362 750,350 L750,170 Q750,158 738,158 L412,158 Q400,158 400,170 L400,185"
+        fill="none" stroke="#34383C" stroke-width="1.8" marker-end="url(#arrow)"/>
+  <text x="565" y="172" text-anchor="middle" font-size="11" fill="#34383C">scrapes LLM</text>
+
+  <!-- Into LiteLLM's top, left to right: OpenHands (330), Open WebUI (355), CI runner (378), Prometheus (400).
+       Each comes down from its box and turns left at its own height (Open WebUI y=135, runner y=147, scrape
+       corridor y=158), the line from further right always lower, so none of them cross. -->
+  <!-- Open WebUI -> LiteLLM (solid): chats and document embeddings -->
+  <path d="M445,107 L445,123 Q445,135 433,135 L367,135 Q355,135 355,147 L355,185"
+        fill="none" stroke="#34383C" stroke-width="1.8" marker-end="url(#arrow)"/>
+  <text x="453" y="124" font-size="11" fill="#34383C">chats, embeddings</text>
+
+  <!-- CI runner -> LiteLLM (dashed): only with the AI code review option -->
+  <path d="M570,107 L570,135 Q570,147 558,147 L390,147 Q378,147 378,159 L378,185"
+        fill="none" stroke="#8F94A0" stroke-width="1.6" stroke-dasharray="6,4" marker-end="url(#arrowDash)"/>
+  <text x="578" y="124" font-size="11" fill="#52565B">AI review (option)</text>
+
+  <!-- Legend -->
+  <g font-size="11" fill="#34383C">
+    <rect x="45" y="550" width="16" height="16" rx="4" fill="#1450A0"/>
+    <text x="67" y="562">Fronted by Caddy</text>
+
+    <rect x="210" y="550" width="16" height="16" rx="4" fill="#F1F3F5" stroke="#1450A0" stroke-width="1.5"/>
+    <text x="232" y="562">Internal-only (edge network)</text>
+
+    <line x1="460" y1="558" x2="490" y2="558" stroke="#34383C" stroke-width="2" marker-end="url(#arrow)"/>
+    <text x="500" y="562">Primary path</text>
+
+    <line x1="640" y1="558" x2="670" y2="558" stroke="#8F94A0" stroke-width="2" stroke-dasharray="6,4" marker-end="url(#arrowDash)"/>
+    <text x="680" y="562">Optional / manual</text>
+  </g>
+  </g>
+</svg>

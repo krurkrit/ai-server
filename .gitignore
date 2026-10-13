@@ -1,0 +1,6 @@
+__pycache__/
+*.pyc
+.venv/
+.claude/settings.local.json
+# Server-specific CA exported by the guide; keep the repo generic
+caddy-root-ca.crt
