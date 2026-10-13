@@ -1,4 +1,5 @@
 # Self-Hosted AI Server Setup Guide
+<!-- Generated from guide/*.md by tools/build-guide.py: edit those files, not this one. -->
 
 Sets up an internal-only AI server (VPN access, no public domain). Caddy fronts every web service with HTTPS from one internal CA, and Outline is the entry point.
 

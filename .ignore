@@ -1,0 +1,6 @@
+# Generated or server-specific files that searches (rg, fd, and other tools reading .ignore) skip;
+# the sources are guide/*.md and options/*.md
+ai-server-setup-guide.md
+outline-export/*.md
+outline-export/options/
+caddy-root-ca.crt

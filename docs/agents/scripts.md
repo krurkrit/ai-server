@@ -37,4 +37,4 @@ Where the helper scripts live, how they behave and report, their manual and `-h`
 - Don't let a trailing `[[ … ]] && …` be the last command (under `set -e` that makes the script's exit status fail).
 - `docker ps … || fallback` never falls back, because `docker ps` succeeds with empty output. Capture the output and use `${VAR:-default}`.
 - Check syntax with `bash -n scripts/*.sh` after editing.
-- Scripts are embedded in the Outline export as heredocs. They must not contain a line that is exactly `SCRIPT_EOF`, or any ```` ``` ````. After editing, regenerate the export (see [guide.md](guide.md#outline-export)).
+- Scripts are embedded in the Outline export as heredocs. They must not contain a line that is exactly `SCRIPT_EOF`, or any ```` ``` ````. After editing, regenerate the export (see [guide.md](guide-structure.md#outline-export)).

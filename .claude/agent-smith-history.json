@@ -3,134 +3,58 @@
     {
       "date": "2026-10-13",
       "agentSmithVersion": "2.5.1",
-      "score": 5.7,
-      "pillars": {
-        "security": 4,
-        "instructions": 9,
-        "configuration": 3,
-        "context": 5,
-        "extensions": 7,
-        "hooks": null,
-        "mcp": null
-      },
-      "findings": {
-        "critical": 1,
-        "important": 4,
-        "suggestions": 5
-      }
-    },
-    {
-      "date": "2026-10-13",
-      "agentSmithVersion": "2.5.1",
-      "score": 8.1,
-      "pillars": {
-        "security": 8,
-        "instructions": 9,
-        "configuration": 8,
-        "context": 8,
-        "extensions": 7,
-        "hooks": null,
-        "mcp": null
-      },
-      "findings": {
-        "critical": 0,
-        "important": 2,
-        "suggestions": 8
-      }
-    },
-    {
-      "date": "2026-10-13",
-      "agentSmithVersion": "2.5.1",
-      "score": 8.6,
+      "score": 9.2,
       "pillars": {
         "security": 9,
         "instructions": 9,
-        "configuration": 9,
-        "context": 8,
-        "extensions": 8,
-        "hooks": null,
+        "configuration": 10,
+        "context": 9,
+        "extensions": 9,
+        "hooks": 9,
         "mcp": null
       },
       "findings": {
         "critical": 0,
-        "important": 2,
+        "important": 0,
+        "suggestions": 4
+      }
+    },
+    {
+      "date": "2026-10-13",
+      "agentSmithVersion": "2.5.1",
+      "score": 9.2,
+      "pillars": {
+        "security": 9,
+        "instructions": 9,
+        "configuration": 10,
+        "context": 9,
+        "extensions": 9,
+        "hooks": 9,
+        "mcp": null
+      },
+      "findings": {
+        "critical": 0,
+        "important": 0,
         "suggestions": 3
       }
     },
     {
       "date": "2026-10-13",
       "agentSmithVersion": "2.5.1",
-      "score": 8.8,
-      "pillars": {
-        "security": 8,
-        "instructions": 9,
-        "configuration": 9,
-        "context": 9,
-        "extensions": 9,
-        "hooks": null,
-        "mcp": null
-      },
-      "findings": {
-        "critical": 0,
-        "important": 2,
-        "suggestions": 2
-      }
-    },
-    {
-      "date": "2026-10-13",
-      "agentSmithVersion": "2.5.1",
-      "score": 9.0,
+      "score": 9.2,
       "pillars": {
         "security": 9,
         "instructions": 9,
-        "configuration": 9,
+        "configuration": 10,
         "context": 9,
         "extensions": 9,
-        "hooks": null,
+        "hooks": 9,
         "mcp": null
       },
       "findings": {
         "critical": 0,
         "important": 0,
         "suggestions": 2
-      }
-    },
-    {
-      "date": "2026-10-13",
-      "agentSmithVersion": "2.5.1",
-      "score": 9.0,
-      "pillars": {
-        "security": 9,
-        "instructions": 9,
-        "configuration": 9,
-        "context": 9,
-        "extensions": 9,
-        "hooks": null,
-        "mcp": null
-      },
-      "findings": {
-        "critical": 0,
-        "important": 0,
-        "suggestions": 1
-      }
-    },
-    {
-      "date": "2026-10-13",
-      "agentSmithVersion": "2.5.1",
-      "score": 9.0,
-      "pillars": {
-        "security": 9,
-        "instructions": 9,
-        "configuration": 9,
-        "context": 9,
-        "extensions": 9,
-        "hooks": null,
-        "mcp": null
-      },
-      "findings": {
-        "critical": 0,
-        "important": 0,
-        "suggestions": 0
       }
     }
   ]

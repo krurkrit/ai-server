@@ -2,10 +2,12 @@
 (and subsections) and other option pages that link to it. Run after changing
 where the guide links an option: python tools/update-option-related.py
 With --check, change nothing and exit 1 if a list is out of date (used by tools/check.py)."""
-import re, glob, os, sys
+import re, glob, os, subprocess, sys
 CHECK = '--check' in sys.argv
 stale = []
 ROOT = os.path.join(os.path.dirname(os.path.abspath(__file__)), '..', '')
+# The guide is joined from guide/*.md; join it first so this reads the current text
+subprocess.run([sys.executable, ROOT + 'tools/build-guide.py'], check=True)
 guide = open(ROOT + 'ai-server-setup-guide.md', encoding='utf-8').read()
 
 

@@ -1,0 +1,5 @@
+# Store and check out every text file with LF, so a Windows checkout does not mix line endings
+* text=auto eol=lf
+*.png binary
+*.jpg binary
+*.pdf binary

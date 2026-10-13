@@ -8,21 +8,23 @@ This file is a map, not the rulebook. Read the topic doc for the files you are a
 
 | Path | What it is |
 |---|---|
-| `ai-server-setup-guide.md` | The guide: Prerequisite, then Steps 1…N; every service step has the same layout (Clean reinstall, Install, Test). About 3.9K lines: grep `^## ` for the section, then read that line range |
+| `guide/*.md` | The guide, one file per part: `NN-<step>.md` is Step NN (`ls guide/`); edit and read only the part you need |
+| `ai-server-setup-guide.md` | Generated: the parts joined into one document for people and the export; never read or edit it |
 | `ai-setup-for-software-development.md` | How the software team (product, developers, QA, release) uses the finished server: stack, workflow, tests, deploy, models, third-party AI, optional tools |
 | `options/*.md` | Optional or alternative paths for a step, linked from the guide; each ends with a generated Related list |
 | `scripts/*.sh` | Helper scripts the user copies to `~/ai-server` on the server |
 | `diagrams/*.svg` | Architecture diagrams (must match what the guide wires up) and the development workflow (must match the team guide) |
 | `outline-export/` | Generated copy for Outline (guide, options, team guide, scripts appended); never edit by hand |
-| `tools/` | `check.py` (all mechanical checks), `build-outline-export.py`, `update-option-related.py`; install their packages once with `python -m pip install -r tools/requirements.txt` |
+| `tools/` | `check.py` (all mechanical checks), `build-guide.py`, `build-outline-export.py`, `update-option-related.py`; hooks `stop-check.py` (runs the check) and `block-shell-reads.py` (keeps generated files out of shell reads); install their packages once with `python -m pip install -r tools/requirements.txt` |
 | `docs/agents/` | Agent rules, one file per topic, plus the decision log |
-| `AGENT_SMITH_REPORT.md`, `.claude/agent-smith-history.json` | Agent Smith config report and score history; not part of the guide |
+| `AGENT_SMITH_REPORT.md`, `.claude/agent-smith-history.json` | Agent Smith report and score history (last 5 runs; `tools/check.py` trims it); read only when asked |
 
 ## Read before editing
 
 | Editing… | Read |
 |---|---|
 | The guide, `options/*.md`, or `ai-setup-for-software-development.md` | [docs/agents/guide.md](docs/agents/guide.md) |
+| A new, removed, or renumbered step; a step's sections, the overview tables, the export | [docs/agents/guide-structure.md](docs/agents/guide-structure.md) |
 | Any compose file, `.env`, or config file in the guide | [docs/agents/compose.md](docs/agents/compose.md) |
 | Caddy files, or anything that picks or publishes a port | [docs/agents/caddy-and-ports.md](docs/agents/caddy-and-ports.md) |
 | `scripts/*.sh` | [docs/agents/scripts.md](docs/agents/scripts.md) |
@@ -37,11 +39,12 @@ This file is a map, not the rulebook. Read the topic doc for the files you are a
 - **List things in step order.** Ports, services, and similar lists follow the guide's step order.
 - **Gate every destructive command with `confirm`.** No step edits an earlier step's file.
 - **Free versions only.** Mark paid features with 💲 and don't depend on them.
+- **Search with the Grep tool or `rg`,** not `grep -r`: they skip the generated copies (`.ignore`, Read denies).
 - **Ask, don't guess,** when a diagram and the guide disagree, a rule does not cover the case, or a change would reverse a logged decision.
 
 ## Before finishing any change
 
-1. `python tools/check.py` passes. It checks the docs (no `Step N` or apostrophes in code blocks, heading lengths, links and anchors, IP addresses, `confirm` on destructive commands, port clashes, YAML that parses), the scripts (manual, `-h`, `bash -n`), this knowledge base (links, summaries, length), the Related lists, and rebuilds the Outline export. Each problem names the doc that explains the fix.
+1. `python tools/check.py` passes (the Stop hook runs it too, and reports only problems). It checks the docs (no `Step N` or apostrophes in code blocks, heading lengths, links and anchors, IP addresses, `confirm` on destructive commands, port clashes, YAML that parses), the scripts (manual, `-h`, `bash -n`), this knowledge base (links, summaries, length), the Related lists, and rebuilds the Outline export. Each problem names the doc that explains the fix.
 2. By hand: no server-specific names in the repo, no step edits an earlier step's file, and the diagrams still match the guide.
 
 ## Keeping these docs healthy

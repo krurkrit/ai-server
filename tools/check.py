@@ -5,6 +5,7 @@ First time: python -m pip install -r tools/requirements.txt
 Covers what can be checked mechanically. Still by hand: the diagrams match what the guide wires up,
 and no step edits an earlier step's file."""
 import glob
+import importlib.util
 import os
 import re
 import shutil
@@ -27,7 +28,25 @@ G, S = 'docs/agents/guide.md', 'docs/agents/scripts.md'
 
 def fail(where, msg, rule=None):
     """rule: the doc that explains the rule, so the fix is one read away"""
-    failures.append(f'{where}: {msg}' + (f'  [see {rule}]' if rule else ''))
+    failures.append(f'{to_part(where)}: {msg}' + (f'  [see {rule}]' if rule else ''))
+
+
+# The guide is edited in guide/*.md and joined into ai-server-setup-guide.md; join it first, check the
+# joined file (its links and anchors are the ones readers follow), and report each problem in its part.
+_spec = importlib.util.spec_from_file_location('build_guide', os.path.join(ROOT, 'tools', 'build-guide.py'))
+build_guide = importlib.util.module_from_spec(_spec)
+_spec.loader.exec_module(build_guide)
+build_guide.main()
+PART_STARTS = build_guide.line_map()
+
+
+def to_part(where):
+    m = re.fullmatch(r'ai-server-setup-guide\.md:(\d+)', str(where))
+    if not m:
+        return where
+    line = int(m.group(1))
+    start, part = [p for p in PART_STARTS if p[0] <= line][-1]
+    return f'{part}:{max(line - 1, 1) if start == 1 else line - start + 1}'
 
 
 def read(rel):
@@ -57,6 +76,17 @@ def anchors(text):
         seen[a] = n + 1
     return out
 
+
+# ---- guide parts: one file per step, named after its number, so Step N is guide/NN-*.md
+for path in sorted(glob.glob(os.path.join(ROOT, 'guide', '*.md'))):
+    name = os.path.basename(path)
+    steps = re.findall(r'^## Step (\d+): ', read(f'guide/{name}'), re.M)
+    if re.match(r'\d\d-', name) and name[:2] not in ('00', '99'):
+        if steps != [str(int(name[:2]))]:
+            fail(f'guide/{name}', f'must hold exactly "## Step {int(name[:2])}: ..." (found {steps or "none"}); '
+                 'rename the file when a step is renumbered', 'docs/agents/guide-structure.md')
+    elif steps:
+        fail(f'guide/{name}', 'a step belongs in its own guide/NN-<name>.md file', 'docs/agents/guide-structure.md')
 
 # ---- documents
 for rel in DOCS:
@@ -262,6 +292,25 @@ for rel in ['AGENTS.md', 'CLAUDE.md'] + rels('docs', 'agents', '*.md') + rels('.
         for glob_pat in re.findall(r'^  - "([^"]+)"', text, re.M):
             if not glob.glob(os.path.join(ROOT, glob_pat), recursive=True):
                 fail(rel, f'paths: entry matches no file: {glob_pat}', 'AGENTS.md')
+
+# ---- decision log: only decisions in force, short rows (replaced ones go to docs/agents/archive/)
+rows = [l for l in read('docs/agents/decisions.md').splitlines() if l.startswith('| ') and not l.startswith('| Decision ')]
+if len(rows) > 30:
+    fail('docs/agents/decisions.md', f'{len(rows)} decisions; move replaced ones to docs/agents/archive/decisions.md (max 30)',
+         'docs/agents/decisions.md')
+for row in rows:
+    if len(row) > 400:
+        fail('docs/agents/decisions.md', f'row of {len(row)} characters (max 400): "{row[:60]}..."', 'docs/agents/decisions.md')
+
+# ---- Agent Smith score history: keep the last 5 runs (the plugin appends one per run)
+hist_path = os.path.join(ROOT, '.claude', 'agent-smith-history.json')
+if os.path.exists(hist_path):
+    import json
+    hist = json.load(open(hist_path, encoding='utf-8'))
+    if len(hist.get('history', [])) > 5:
+        hist['history'] = hist['history'][-5:]
+        with open(hist_path, 'w', encoding='utf-8', newline='\n') as f:
+            f.write(json.dumps(hist, indent=2) + '\n')
 
 # ---- generated files
 for cmd, what in (([sys.executable, os.path.join(ROOT, 'tools', 'update-option-related.py'), '--check'], 'Related lists'),

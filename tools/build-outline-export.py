@@ -16,6 +16,7 @@ Fails loudly if the guide's wording no longer matches, so the export never silen
 import os
 import pathlib
 import re
+import subprocess
 import sys
 
 ROOT = pathlib.Path(__file__).resolve().parent.parent
@@ -194,12 +195,14 @@ def export_options(titles):
 
 
 def main():
+    # The guide is joined from guide/*.md; join it first so the export reads the current text
+    subprocess.run([sys.executable, str(ROOT / "tools" / "build-guide.py")], check=True)
     text = GUIDE.read_text(encoding="utf-8").replace("\r\n", "\n")
     titles = option_titles()
 
     if not text.startswith(TITLE + "\n"):
         fail(f"guide doesn't start with '{TITLE}'")
-    text = NOTE + text[len(TITLE):]
+    text = NOTE + re.sub(r"^\n<!-- Generated from guide/.*?-->", "", text[len(TITLE):], count=1)
 
     check_server()
     text = diagrams(text, DIAGRAMS)
